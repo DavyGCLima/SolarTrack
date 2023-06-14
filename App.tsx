@@ -32,7 +32,7 @@ function App(): JSX.Element {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await requestData();
+        const response = await requestData({});
         // console.log('data :>> ', data);
         console.log('data ==>', JSON.stringify(response, null, 2));
         if (response.data) {

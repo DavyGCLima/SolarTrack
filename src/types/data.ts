@@ -9,12 +9,14 @@ export enum DataType {
 export type APIResponse = {
   data: {
     dataType: DataType
-    x_labels: string[]
+    x_labels: string[],
+    generation?: number[],
+    expected?: number[]
     totals: {
       kwh: number
-      pecentage: number
+      percentage: number
       trees: number
-      cos: number
+      co2: number
     }
   }
 }
