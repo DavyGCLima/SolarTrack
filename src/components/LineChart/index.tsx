@@ -1,8 +1,10 @@
 import { FC, useMemo } from 'react'
-import { Chart, VerticalAxis, HorizontalAxis, Line, Area } from 'react-native-responsive-linechart'
+import { Dimensions, useColorScheme } from 'react-native'
+import { LineChart } from 'react-native-chart-kit'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 export type TChartData = {
-  x: number,
+  x: string,
   y: number
 }
 
@@ -11,35 +13,58 @@ export type TLineChart = {
 }
 
 const data1 = [
-  { x: -2, y: 1 },
-  { x: -1, y: 0 },
-  { x: 8, y: 13 },
-  { x: 9, y: 11.5 },
-  { x: 10, y: 12 }
+  { x: "-2", y: 1 },
+  { x: "-1", y: 0 },
+  { x: "8", y: 12 },
+  { x: "9", y: 11.5 },
+  { x: "10", y: 12 }
 ]
 
-const LineChart: FC<TLineChart> = ({ data = data1 }) => {
+const LineChartCustom: FC<TLineChart> = ({ data = data1 }) => {
 
-  const yValues = useMemo(() => data.map(item => item.y), [data])
-  const xValues = useMemo(() => data.map(item => item.x), [data])
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const yValues = useMemo(() => data?.map(item => item.y) ?? [], [data])
+  const xValues = useMemo(() => data?.map(item => item.x) ?? [], [data])
 
   return (
-    <Chart
-      style={{ height: 200, width: '100%', backgroundColor: 'white', margin: '2.5%' }}
-      xDomain={{ min: Math.min(...xValues), max: Math.max(...xValues) }}
-      yDomain={{ min: Math.min(...yValues), max: Math.max(...yValues) }}
-      padding={{ left: 20, top: 10, bottom: 10, right: 10 }}
-      data={data}
-    >
-      <VerticalAxis tickCount={yValues.length} />
-      <HorizontalAxis tickValues={xValues} />
-      <Area theme={{ gradient: { from: { color: 'green' }, to: { color: 'white', opacity: 0.4 } } }} />
-      <Line smoothing="cubic-spline" theme={{
-        stroke: { color: 'green', width: 3 },
-        scatter: { default: { width: 4, height: 4, rx: 2 } }
-      }} />
-    </Chart>
+    <LineChart
+      data={{
+        labels: xValues,
+        datasets: [
+          {
+            data: yValues
+          }
+        ]
+      }}
+      width={Dimensions.get("window").width} // from react-native
+      height={220}
+      yAxisLabel="Kwh "
+      yAxisInterval={1} // optional, defaults to 1
+      xAxisLabel='h'
+      chartConfig={{
+        backgroundColor: "white",
+        backgroundGradientFrom: "#fb8c00",
+        backgroundGradientTo: "#ffa726",
+        decimalPlaces: 2, // optional, defaults to 2dp
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        style: {
+          borderRadius: 16
+        },
+        propsForDots: {
+          r: "6",
+          strokeWidth: "2",
+          stroke: "#ffa726"
+        }
+      }}
+      bezier
+      style={{
+        marginVertical: 8,
+        borderRadius: 16
+      }}
+    />
   )
 }
 
-export default LineChart
+export default LineChartCustom

@@ -1,8 +1,8 @@
 import React, {FC, useMemo} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {APIResponse} from '../../types/data';
-import LineChart from '../LineChart';
-import { generateGraphByHour } from '../../helper/data';
+import { APIResponse } from '../../types/data';
+import { generateGraphByHour, generateGraphByMonth } from '../../helper/data';
+import LineChartCustom from '../LineChart';
 
 const HeaderWithScroll: FC<{data?: APIResponse['data']}> = ({data}) => {
   const kwh = useMemo(() => data?.totals.kwh ?? 0, [data]);
@@ -27,7 +27,7 @@ const HeaderWithScroll: FC<{data?: APIResponse['data']}> = ({data}) => {
         <Text style={styles.whiteColor}>Arvores: {trees}</Text>
       </View>
 
-      {data ? <LineChart data={generateGraphByHour(data)} /> : null}
+      {data ? <LineChartCustom data={generateGraphByHour(data)} /> : null}
     </View>
   );
 };

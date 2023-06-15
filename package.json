@@ -12,8 +12,9 @@
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.71.10",
+    "react-native-chart-kit": "^6.12.0",
     "react-native-gesture-handler": "^2.12.0",
-    "react-native-responsive-linechart": "^5.7.1",
+    "react-native-select-dropdown": "^3.3.4",
     "react-native-svg": "^13.9.0"
   },
   "devDependencies": {
