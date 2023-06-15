@@ -8,7 +8,7 @@ export enum DataType {
 
 export type APIResponse = {
   data: {
-    dataType: DataType
+    data_type: DataType
     x_labels: string[],
     generation?: number[],
     expected?: number[]

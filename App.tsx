@@ -18,7 +18,7 @@ import {
 import {requestData} from './src/service/api';
 import HeaderWithScroll from './src/components/header';
 import Section from './src/components/Section';
-import {APIResponse} from './src/types/data';
+import { APIResponse, DataType } from './src/types/data';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -32,9 +32,8 @@ function App(): JSX.Element {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await requestData({});
-        // console.log('data :>> ', data);
-        console.log('data ==>', JSON.stringify(response, null, 2));
+        const response = await requestData({ type: DataType.Hourly });
+        // console.log('data ==>', JSON.stringify(response, null, 2));
         if (response.data) {
           setData(response.data);
         }
