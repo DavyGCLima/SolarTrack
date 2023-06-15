@@ -4,7 +4,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { APIResponse, DataType } from '../../types/data';
 import { requestData } from '../../service/api';
 import LineChart, { TChartData } from '../LineChart';
-import { generateGraphByHour, generateGraphByMonth } from '../../helper/data';
+import { generateGraphByDaily, generateGraphByHour, generateGraphByMonth, generateGraphByYearly } from '../../helper/data';
 
 export type TFilterChart = {};
 
@@ -36,8 +36,8 @@ const FilterChart: FC<TFilterChart> = ({ }) => {
       const base = {
         [DataType.Hourly]: generateGraphByHour,
         [DataType.Monthly]: generateGraphByMonth,
-        [DataType.Daily]: generateGraphByMonth,
-        [DataType.Yearly]: generateGraphByMonth
+        [DataType.Daily]: generateGraphByDaily,
+        [DataType.Yearly]: generateGraphByYearly
       }
       return base[filter](props)
     },
@@ -53,14 +53,13 @@ const FilterChart: FC<TFilterChart> = ({ }) => {
           { label: 'Mês', value: DataType.Monthly },
           { label: 'Ano', value: DataType.Yearly },
         ]}
-        onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index);
+        onSelect={(selectedItem) => {
           setFilter(selectedItem.value)
         }}
         buttonTextAfterSelection={(selectedItem) => selectedItem.label}
         rowTextForSelection={(item) => item.label}
       />
-      {data ? <LineChart data={callRequestByFilter(data)} /> : null}
+      {data ? <LineChart data={callRequestByFilter(data)} dataType={data.data_type} /> : null}
     </View>
   )
 };

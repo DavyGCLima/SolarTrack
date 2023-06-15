@@ -1,6 +1,6 @@
 import { TChartData } from "../components/LineChart";
 import { APIResponse, DataType } from "../types/data";
-import { convertIntoHours, convertIntoMonths } from "./time";
+import { convertIntoDays, convertIntoHours, convertIntoMonths, convertIntoYears } from "./time";
 
 function check(data: APIResponse["data"], type: DataType) {
   if (data.data_type !== type) {
@@ -18,10 +18,24 @@ export function generateGraphByHour(data: APIResponse["data"]): Array<TChartData
     ({ x: convertIntoHours(xl), y: data.generation![i] })
   )
 }
+export function generateGraphByDaily(data: APIResponse["data"]): Array<TChartData> {
+  check(data, DataType.Daily)
+
+  return data.x_labels.map((xl, i) =>
+    ({ x: convertIntoDays(xl), y: data.generation![i] })
+  )
+}
 export function generateGraphByMonth(data: APIResponse["data"]): Array<TChartData> {
   check(data, DataType.Monthly)
 
   return data.x_labels.map((xl, i) =>
-    ({ x: convertIntoMonths(xl), y: data.generation![i] })
+    ({ x: convertIntoMonths(xl), y: Math.round(data.generation![i]) })
+  )
+}
+export function generateGraphByYearly(data: APIResponse["data"]): Array<TChartData> {
+  check(data, DataType.Yearly)
+
+  return data.x_labels.map((xl, i) =>
+    ({ x: convertIntoYears(xl), y: Math.round(data.generation![i]) })
   )
 }

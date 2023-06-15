@@ -1,6 +1,6 @@
 import React, {FC, useMemo} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import { APIResponse } from '../../types/data';
+import { APIResponse, DataType } from '../../types/data';
 import { generateGraphByHour, generateGraphByMonth } from '../../helper/data';
 import LineChartCustom from '../LineChart';
 
@@ -9,8 +9,6 @@ const HeaderWithScroll: FC<{data?: APIResponse['data']}> = ({data}) => {
   const capacity = useMemo(() => data?.totals.percentage ?? 0, [data]);
   const co2 = useMemo(() => data?.totals.co2 ?? Infinity, [data]);
   const trees = useMemo(() => data?.totals.trees ?? 0, [data]);
-
-  console.log('data ==>', JSON.stringify(data, null, 2));
 
   return (
     <View style={[styles.container, { backgroundColor: kwh > 1 ? 'green' : 'red' }]}>
@@ -27,7 +25,7 @@ const HeaderWithScroll: FC<{data?: APIResponse['data']}> = ({data}) => {
         <Text style={styles.whiteColor}>Arvores: {trees}</Text>
       </View>
 
-      {data ? <LineChartCustom data={generateGraphByHour(data)} /> : null}
+      {data ? <LineChartCustom data={generateGraphByHour(data)} dataType={DataType.Hourly} /> : null}
     </View>
   );
 };

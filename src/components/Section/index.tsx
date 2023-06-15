@@ -35,9 +35,9 @@ export default function Section({children, title}: SectionProps): JSX.Element {
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
-    paddingHorizontal: 24,
   },
   sectionTitle: {
+    paddingHorizontal: 24,
     fontSize: 24,
     fontWeight: '600',
   },
