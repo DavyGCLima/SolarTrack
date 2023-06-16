@@ -14,7 +14,7 @@ const HeaderWithScroll: FC<{data?: APIResponse['data']}> = ({data}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <View style={[styles(isDarkMode).container, { backgroundColor: kwh > 1 ? 'green' : 'red' }]}>
+    <View style={[styles(isDarkMode).container, { backgroundColor: kwh > 1 ? '#77ac4c' : '#e76444' }]}>
       <Text style={[styles(isDarkMode).title]}>Solar Track</Text>
       <Text
         style={[styles(isDarkMode).subTitle]}>

@@ -6,7 +6,8 @@ import { DataType } from '../../types/data'
 
 export type TChartData = {
   x: string,
-  y: number
+  y: number,
+  target?: number
 }
 
 export type TLineChart = {
@@ -15,11 +16,11 @@ export type TLineChart = {
 }
 
 const data1 = [
-  { x: "-2", y: 1 },
-  { x: "-1", y: 0 },
-  { x: "8", y: 12 },
-  { x: "9", y: 11.5 },
-  { x: "10", y: 12 }
+  { x: "-2", y: 1, target: 0 },
+  { x: "-1", y: 0, target: 0 },
+  { x: "8", y: 12, target: 0 },
+  { x: "9", y: 11.5, target: 0 },
+  { x: "10", y: 12, target: 0 }
 ]
 
 const LineChartCustom: FC<TLineChart> = ({ data = data1, dataType }) => {
@@ -28,6 +29,7 @@ const LineChartCustom: FC<TLineChart> = ({ data = data1, dataType }) => {
 
   const yValues = useMemo(() => data?.map(item => item.y) ?? [], [data])
   const xValues = useMemo(() => data?.map(item => item.x) ?? [], [data])
+  const target = useMemo(() => data?.map(item => item.target ?? 0) ?? [], [data])
   const hidenElements = useMemo(() => {
     if (dataType === DataType.Daily) {
       return xValues.map((el, index) => index % 2 === 0 ? index : null).filter(i => Number.isInteger(i))
@@ -56,9 +58,16 @@ const LineChartCustom: FC<TLineChart> = ({ data = data1, dataType }) => {
       <LineChart
         data={{
           labels: xValues,
+          legend: ["Produção", "Expectativa"],
           datasets: [
             {
-              data: yValues
+              data: yValues,
+              color: () => 'rgba(241, 227, 71, 1)',
+            },
+            {
+              data: target,
+              strokeWidth: 5,
+              color: () => 'rgba(71, 102, 241, 0.596)',
             }
           ]
         }}
@@ -70,6 +79,7 @@ const LineChartCustom: FC<TLineChart> = ({ data = data1, dataType }) => {
         verticalLabelRotation={dataType !== DataType.Hourly ? 45 : 0}
         horizontalLabelRotation={dataType !== DataType.Hourly ? -30 : 0}
         withDots={dataType === DataType.Hourly ? true : false}
+        useShadowColorFromDataset
         chartConfig={{
           backgroundColor: "white",
           backgroundGradientFrom: "#fb8c00",

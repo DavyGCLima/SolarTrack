@@ -14,28 +14,32 @@ function check(data: APIResponse["data"], type: DataType) {
 export function generateGraphByHour(data: APIResponse["data"]): Array<TChartData> {
   check(data, DataType.Hourly)
 
+  if (data.expected?.length === 1) {
+    data.expected = Array(data.generation?.length).fill(data.expected[0])
+  }
+
   return data.x_labels.map((xl, i) =>
-    ({ x: convertIntoHours(xl), y: data.generation![i] })
+    ({ x: convertIntoHours(xl), y: data.generation![i], target: data.expected![i] })
   )
 }
 export function generateGraphByDaily(data: APIResponse["data"]): Array<TChartData> {
   check(data, DataType.Daily)
 
   return data.x_labels.map((xl, i) =>
-    ({ x: convertIntoDays(xl), y: data.generation![i] })
+    ({ x: convertIntoDays(xl), y: data.generation![i], target: data.expected![i] })
   )
 }
 export function generateGraphByMonth(data: APIResponse["data"]): Array<TChartData> {
   check(data, DataType.Monthly)
 
   return data.x_labels.map((xl, i) =>
-    ({ x: convertIntoMonths(xl), y: Math.round(data.generation![i]) })
+    ({ x: convertIntoMonths(xl), y: Math.round(data.generation![i]), target: data.expected![i] })
   )
 }
 export function generateGraphByYearly(data: APIResponse["data"]): Array<TChartData> {
   check(data, DataType.Yearly)
 
   return data.x_labels.map((xl, i) =>
-    ({ x: convertIntoYears(xl), y: Math.round(data.generation![i]) })
+    ({ x: convertIntoYears(xl), y: Math.round(data.generation![i]), target: data.expected![i] })
   )
 }
