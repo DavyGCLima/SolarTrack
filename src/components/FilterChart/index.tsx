@@ -1,14 +1,16 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { APIResponse, DataType } from '../../types/data';
 import { requestData } from '../../service/api';
 import LineChart, { TChartData } from '../LineChart';
 import { generateGraphByDaily, generateGraphByHour, generateGraphByMonth, generateGraphByYearly } from '../../helper/data';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export type TFilterChart = {};
 
 const FilterChart: FC<TFilterChart> = ({ }) => {
+  const isDarkMode = useColorScheme() === 'dark';
 
   const [filter, setFilter] = useState(DataType.Monthly)
 
@@ -45,7 +47,7 @@ const FilterChart: FC<TFilterChart> = ({ }) => {
   )
 
   return (
-    <View style={styles.container}>
+    <View style={styles(isDarkMode).container}>
       <SelectDropdown
         data={[
           { label: 'Hora', value: DataType.Hourly },
@@ -53,23 +55,56 @@ const FilterChart: FC<TFilterChart> = ({ }) => {
           { label: 'Mês', value: DataType.Monthly },
           { label: 'Ano', value: DataType.Yearly },
         ]}
+        defaultValue={{ label: 'Mês', value: DataType.Monthly }}
         onSelect={(selectedItem) => {
           setFilter(selectedItem.value)
         }}
         buttonTextAfterSelection={(selectedItem) => selectedItem.label}
         rowTextForSelection={(item) => item.label}
       />
-      {data ? <LineChart data={callRequestByFilter(data)} dataType={data.data_type} /> : null}
+      {data ? <>
+        <View style={styles(isDarkMode).extraData}>
+          <Text style={styles(isDarkMode).text}>🌳 Salvas: {Math.floor(data?.totals.trees)}</Text>
+          <Text style={styles(isDarkMode).text}>🍃 CO2: {Math.floor(data?.totals.co2)}</Text>
+        </View>
+        <Text style={styles(isDarkMode).chartTitle}>☀ Produção</Text>
+        <LineChart data={callRequestByFilter(data)} dataType={data.data_type} />
+      </> : null}
+
+
     </View>
   )
 };
 
-const styles = StyleSheet.create({
+const styles = (isDarkMode = false) => StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    width: '100%',
-    minHeight: 250
+    width: Dimensions.get("window").width,
+    minHeight: 250,
+    paddingTop: 24,
+    backgroundColor: isDarkMode ? Colors.dark : Colors.white
+  },
+  extraData: {
+    width: Dimensions.get("window").width,
+    padding: 10,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: 16,
+    marginBottom: 16
+  },
+  text: {
+    fontSize: 16,
+    color: isDarkMode ? Colors.white : Colors.dark
+  },
+  chartTitle: {
+    width: Dimensions.get("window").width,
+    padding: 10,
+    textAlign: 'center',
+    fontSize: 24,
+    marginBottom: 16,
+    color: isDarkMode ? Colors.white : Colors.dark
   }
 });
 

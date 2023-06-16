@@ -1,8 +1,9 @@
 import React, {FC, useMemo} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, useColorScheme } from 'react-native';
 import { APIResponse, DataType } from '../../types/data';
 import { generateGraphByHour, generateGraphByMonth } from '../../helper/data';
 import LineChartCustom from '../LineChart';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const HeaderWithScroll: FC<{data?: APIResponse['data']}> = ({data}) => {
   const kwh = useMemo(() => data?.totals.kwh ?? 0, [data]);
@@ -10,19 +11,23 @@ const HeaderWithScroll: FC<{data?: APIResponse['data']}> = ({data}) => {
   const co2 = useMemo(() => data?.totals.co2 ?? Infinity, [data]);
   const trees = useMemo(() => data?.totals.trees ?? 0, [data]);
 
+  const isDarkMode = useColorScheme() === 'dark';
+
   return (
-    <View style={[styles.container, { backgroundColor: kwh > 1 ? 'green' : 'red' }]}>
-      <Text style={[styles.title, styles.whiteColor]}>Solar Track</Text>
+    <View style={[styles(isDarkMode).container, { backgroundColor: kwh > 1 ? 'green' : 'red' }]}>
+      <Text style={[styles(isDarkMode).title]}>Solar Track</Text>
       <Text
-        style={[styles.subTitle]}>
-        {kwh > 1 ? `Gerando ${Math.round(kwh)} Kwh` : 'Produção parada!'}
+        style={[styles(isDarkMode).subTitle]}>
+        {kwh > 1 ? `☀ Gerando ${Math.round(kwh)} Kwh` : 'Produção parada!'}
       </Text>
-      <View style={[styles.thirdLine]}>
-        <Text style={styles.whiteColor}>Capacidade {Math.round(capacity)}%</Text>
-        <Text style={styles.whiteColor}>CO2 {Math.round(co2)}</Text>
-      </View>
-      <View style={styles.treesLine}>
-        <Text style={styles.whiteColor}>Arvores: {trees}</Text>
+      <View style={styles(isDarkMode).square}>
+        <View style={[styles(isDarkMode).thirdLine]}>
+          <Text style={styles(isDarkMode).whiteColor}>📈 Capacidade {Math.round(capacity)}%</Text>
+          <Text style={styles(isDarkMode).whiteColor}>🍃 CO2 {Math.round(co2)}</Text>
+        </View>
+        <View style={styles(isDarkMode).treesLine}>
+          <Text style={styles(isDarkMode).whiteColor}>🌳 Arvores salvas: {trees}</Text>
+        </View>
       </View>
 
       {data ? <LineChartCustom data={generateGraphByHour(data)} dataType={DataType.Hourly} /> : null}
@@ -30,17 +35,26 @@ const HeaderWithScroll: FC<{data?: APIResponse['data']}> = ({data}) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (isDarkMode = false) => StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
   },
+  square: {
+    width: '90%',
+    borderRadius: 8,
+    backgroundColor: isDarkMode ? Colors.dark : Colors.white,
+    marginTop: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
   whiteColor: {
-    color: 'white'
+    color: isDarkMode ? Colors.white : Colors.dark
   },
   title: {
     fontSize: 36,
     fontWeight: 'bold',
+    color: 'white'
   },
   subTitle: {
     fontSize: 24,

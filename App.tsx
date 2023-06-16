@@ -3,20 +3,15 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
   useColorScheme,
   View,
 } from 'react-native';
 
 import {
   Colors,
-  DebugInstructions,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {requestData} from './src/service/api';
-import HeaderWithScroll from './src/components/header';
+import HeaderWithScroll from './src/components/Header';
 import Section from './src/components/Section';
 import { APIResponse, DataType } from './src/types/data';
 import FilterChart from './src/components/FilterChart';
@@ -34,7 +29,6 @@ function App(): JSX.Element {
     async function getData() {
       try {
         const response = await requestData({ type: DataType.Hourly });
-        // console.log('data ==>', JSON.stringify(response, null, 2));
         if (response.data) {
           setData(response.data);
         }
@@ -62,8 +56,6 @@ function App(): JSX.Element {
           <Section title="Acompanhe">
             <FilterChart />
           </Section>
-
-          <LearnMoreLinks />
         </View>
       </ScrollView>
     </SafeAreaView>

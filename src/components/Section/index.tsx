@@ -9,22 +9,17 @@ type SectionProps = PropsWithChildren<{
 export default function Section({children, title}: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
+    <View style={styles(isDarkMode).sectionContainer}>
       <Text
         style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
+          styles(isDarkMode).sectionTitle,
         ]}>
         {title}
       </Text>
       <Text
         style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
+          styles(isDarkMode).sectionDescription,
+          ,
         ]}>
         {children}
       </Text>
@@ -32,14 +27,17 @@ export default function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = (isDarkMode = false) => StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
+    backgroundColor: isDarkMode ? Colors.dark : Colors.white,
   },
   sectionTitle: {
     paddingHorizontal: 24,
     fontSize: 24,
     fontWeight: '600',
+    color: isDarkMode ? Colors.white : Colors.drak,
+
   },
   sectionDescription: {
     marginTop: 8,
