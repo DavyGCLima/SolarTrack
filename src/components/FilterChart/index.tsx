@@ -61,6 +61,7 @@ const FilterChart: FC<TFilterChart> = ({ }) => {
         }}
         buttonTextAfterSelection={(selectedItem) => selectedItem.label}
         rowTextForSelection={(item) => item.label}
+        buttonStyle={styles(isDarkMode).dropdown}
       />
       {data ? <>
         <View style={styles(isDarkMode).extraData}>
@@ -105,6 +106,9 @@ const styles = (isDarkMode = false) => StyleSheet.create({
     fontSize: 24,
     marginBottom: 16,
     color: isDarkMode ? Colors.white : Colors.dark
+  },
+  dropdown: {
+    borderRadius: 8
   }
 });
 

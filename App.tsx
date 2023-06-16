@@ -51,7 +51,7 @@ function App(): JSX.Element {
         <HeaderWithScroll data={data} />
         <View
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            backgroundColor: isDarkMode ? Colors.dark : Colors.white,
           }}>
           <Section title="Acompanhe">
             <FilterChart />
