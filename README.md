@@ -18,3 +18,13 @@ Então para iniciar utilize
 ```bash
 npm start
 ```
+
+## Testes
+
+Os testes podem ser executados com
+
+```bash
+npm run test
+```
+
+Nota: Os testes precisam ser melhorados, devido a limitações de imcompatiovilidade de algumas bibliotecas usadas

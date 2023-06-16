@@ -6,10 +6,12 @@ import 'react-native';
 import React from 'react';
 
 // Note: test renderer must be required after react-native.
-import { render, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import HeaderWithScroll from '../src/components/Header';
 import mockedData from '../mock/mock'
 import FilterChart from '../src/components/FilterChart';
+
+jest.mock('../src/service/api')
 
 
 test('Check render of the Head', () => {
@@ -25,8 +27,7 @@ test('Check request API', async () => {
   })
 
   expect(component).toBeDefined()
-  expect(component!.getByTestId('line-chart-container')).toBeDefined();
-
+  expect(screen!.getByTestId('line-chart-container')).toBeDefined();
 })
 
 test('Check if dropdown exists', async () => {
