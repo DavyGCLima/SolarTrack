@@ -1,7 +1,6 @@
 import { FC, useMemo } from 'react'
-import { Dimensions, View, useColorScheme } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import { LineChart } from 'react-native-chart-kit'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { DataType } from '../../types/data'
 
 export type TChartData = {
@@ -24,8 +23,6 @@ const data1 = [
 ]
 
 const LineChartCustom: FC<TLineChart> = ({ data = data1, dataType }) => {
-
-  const isDarkMode = useColorScheme() === 'dark';
 
   const yValues = useMemo(() => data?.map(item => item.y) ?? [], [data])
   const xValues = useMemo(() => data?.map(item => item.x) ?? [], [data])
