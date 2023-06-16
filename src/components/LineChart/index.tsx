@@ -51,7 +51,7 @@ const LineChartCustom: FC<TLineChart> = ({ data = data1, dataType }) => {
 
 
   return (
-    <View style={{}}>
+    <View style={{}} testID="line-chart-container">
       <LineChart
         data={{
           labels: xValues,

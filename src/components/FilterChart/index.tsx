@@ -20,9 +20,9 @@ const FilterChart: FC<TFilterChart> = ({ }) => {
     async function getData() {
       try {
         const response = await requestData({ type: filter });
-        console.group(`Filter: ${filter}`)
-        console.log(`response.data ==>`, JSON.stringify(response.data, null, 2))
-        console.groupEnd()
+        // console.group(`Filter: ${filter}`)
+        // console.log(`response.data ==>`, JSON.stringify(response.data, null, 2))
+        // console.groupEnd()
         if (response.data) {
           setData(response.data);
         }
@@ -49,6 +49,7 @@ const FilterChart: FC<TFilterChart> = ({ }) => {
   return (
     <View style={styles(isDarkMode).container}>
       <SelectDropdown
+        testID="dataTypeDropdown"
         data={[
           { label: 'Hora', value: DataType.Hourly },
           { label: 'Dia', value: DataType.Daily },
